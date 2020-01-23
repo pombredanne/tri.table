@@ -1,5 +1,5 @@
-Welcome to tri.table's documentation!
-======================================
+tri.table
+=========
 
 .. include:: README.rst
     :start-line: 3
@@ -12,6 +12,7 @@ Contents:
 
    installation
    usage
+   architecture_overview
    api
    history
    authors

@@ -47,11 +47,11 @@ Simple example
         class FooTable(Table):
             a = Column.number()  # This is a shortcut that results in the css class "rj" (for right justified) being added to the header and cell
             b = Column()
-            c = Column(cell__format=lambda table, column, row, value: value[-1])  # Display the last value of the tuple
-            sum_c = Column(cell__value=lambda table, column, row: sum(row.c), sortable=False)  # Calculate a value not present in Foo
+            c = Column(cell__format=lambda table, column, row, value, **_: value[-1])  # Display the last value of the tuple
+            sum_c = Column(cell__value=lambda table, column, row, **_: sum(row.c), sortable=False)  # Calculate a value not present in Foo
 
         # now to get an HTML table:
-        return render_table_to_response(request, FooTable(data=foos), template_name='base.html')
+        return render_table_to_response(request, FooTable(data=foos), template='base.html')
 
 And this is what you get:
 
@@ -92,7 +92,7 @@ Now I can display a list of Bars in a table like this:
                 query_show=True,
                 query__gui__show=True)
 
-        return render_table_to_response(request, BarTable(data=Bar.objects.all()), template_name='base.html', paginate_by=20)
+        return render_table_to_response(request, BarTable(data=Bar.objects.all()), template='base.html', paginate_by=20)
 
 This gives me a view with filtering, sorting, bulk edit and pagination.
 
@@ -103,7 +103,7 @@ Read the full documentation for more.
 Usage
 -----
 
-Add tri.form, tri.query, tri.table to INSTALLED_APPS.
+Add tri_form, tri_query, tri_table to INSTALLED_APPS.
 
 Motivation
 ----------
@@ -114,7 +114,7 @@ This code was also error prone to change since we often have columns that we sho
 
 We also saw that almost always the names of the columns (aka the headers) could be derived from the name of the field they should display data for, so we opted for defaults to make this case easier.
 
-It was very important for us to have customization available at many levels. Many table libraries have really nice and short code for the default case but when you have to customize some tiny thing you have to rewrite huge swaths of the library's code. We didn't want to do that since we made this library in order to refactor out exactly this thing from our existing code base. We ended up with the powerful pattern of being able to supply callables for the points of customization, leading to small tweaks moving into the table definition instead of being scattered in model or template tag code. We also have many levels or customization so that the path from “just display columns x, y and z somehow” to heavy customization is smooth and gradual. 
+It was very important for us to have customization available at many levels. Many table libraries have really nice and short code for the default case but when you have to customize some tiny thing you have to rewrite huge swaths of the library's code. We didn't want to do that since we made this library in order to refactor out exactly this thing from our existing code base. We ended up with the powerful pattern of being able to supply callables for the points of customization, leading to small tweaks moving into the table definition instead of being scattered in model or template tag code. We also have many levels or customization so that the path from "just display columns x, y and z somehow" to heavy customization is smooth and gradual.
 
 We chose to mimic how django forms and models are declared because we really like that kind of declarative style, but you can also use it in a more functional style if you want. The latter is useful when you want to create a list of the columns to display programmatically for example.
 
@@ -135,4 +135,4 @@ BSD
 Documentation
 -------------
 
-http://tritables.readthedocs.org.
+https://tritable.readthedocs.org.

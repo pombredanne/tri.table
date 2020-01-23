@@ -7,13 +7,26 @@ TEMPLATE_DIRS = [
 
 TEMPLATE_DEBUG = True
 
+# Django >=1.9
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': TEMPLATE_DIRS,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': TEMPLATE_DEBUG,
+        }
+    }
+]
+
+
 SECRET_KEY = "foobar"
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'tri.form',
-    'tri.query',
-    'tri.table',
+    'tri_form',
+    'tri_query',
+    'tri_table',
     'tests'
 ]
 
